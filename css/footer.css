@@ -1,0 +1,18 @@
+/* ---------- The footer on every page: feedback on the left, the copyright and logo on the right ----------
+   The same footer as the learning games. It sits at the bottom of the page, and is quiet on purpose:
+   the copyright and logo are halfway between the soft text colour and the background. */
+.lf-mark { display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  color: #b6b6b6; color: color-mix(in srgb, var(--ink-soft) 50%, var(--paper)); }
+.lf-foot { width: 100%; min-height: 56px; margin-top: auto; padding-block: 8px max(14px, env(safe-area-inset-bottom, 0px));
+  flex-wrap: wrap; row-gap: 2px; }   /* a very long name wraps onto a second line rather than push the page wider */
+.lf-copy { margin: 0 0 0 auto; text-align: right; font-size: 0.75rem; line-height: 1.35; }
+
+/* the CC logo: two C's and a smile, drawn in the footer's colour */
+.lf-logo { flex: none; width: 34px; height: 29px; overflow: visible; }
+.lf-logo path { fill: none; stroke-width: 2.6; stroke-linecap: round; stroke: currentColor; }
+
+/* the feedback link sits quietly on the left, across from the copyright */
+.lf-fb-link { margin-right: auto; padding: 6px 2px; border-radius: 6px;
+  font-size: 0.875rem; font-weight: 500; line-height: 1.2; color: var(--ink-soft);
+  text-decoration: underline; text-underline-offset: 3px; -webkit-tap-highlight-color: transparent; }
+.lf-fb-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

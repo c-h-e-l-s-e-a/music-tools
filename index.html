@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- Vocal Range Piano. Your name and feedback email go in js/my-settings.js, not here. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Vocal Range Piano</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/piano.css">
+<link rel="stylesheet" href="css/tuner.css">
+<link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+<h1>Vocal Range Piano</h1>
+
+<div class="sec-label">Voice ranges</div>
+<div class="legend" id="legend"></div>
+
+<div class="piano-scroll" id="pianoScroll">
+  <div class="piano-wrap" id="pianoWrap"></div>
+</div>
+
+<div class="card">
+  <div class="sec-label">Grand staff</div>
+  <div class="current-note" id="currentNoteDisp">—</div>
+  <canvas id="staffCanvas"></canvas>
+</div>
+
+<div class="card" id="tuner">
+  <div class="sec-label">Tuner</div>
+  <div class="tn-row">
+    <button class="play-btn" id="tnBtn" type="button"><span aria-hidden="true">🎤</span> Start listening</button>
+    <p class="tn-status" id="tnStatus" role="status"></p>
+  </div>
+  <div class="tn-display">
+    <div class="tn-readout">
+      <span class="tn-note" id="tnNote">—</span>
+      <span class="tn-freq" id="tnFreq"></span>
+    </div>
+    <div class="tn-gauge" aria-hidden="true">
+      <div class="tn-meter"><div class="tn-zone"></div><div class="tn-mid"></div><div class="tn-needle" id="tnNeedle"></div></div>
+      <div class="tn-scale"><span>&#9837; Flat</span><span>Sharp &#9839;</span></div>
+    </div>
+  </div>
+  <p class="tn-verdict" id="tnVerdict"></p>
+</div>
+
+<div class="card">
+  <div class="sec-label" style="margin-bottom:10px;">Metronome</div>
+  <div class="metro-row">
+    <div class="metro-main">
+      <button class="play-btn" id="playBtn" onclick="toggleMetro()">&#9654; Start</button>
+      <select class="ts-select" id="tsSelect" onchange="updateTs()">
+        <option value="1">Steady</option>
+        <option value="2">2/4</option>
+        <option value="3">3/4</option>
+        <option value="4" selected>4/4</option>
+        <option value="6">6/8</option>
+      </select>
+      <div class="beats-row" id="beatsRow"></div>
+    </div>
+    <div class="metro-tempo">
+      <button class="adj-btn" onclick="adjBpm(-1)" aria-label="Slower">&#8722;</button>
+      <div class="bpm-readout"><span class="bpm-num" id="bpmVal">80</span><span class="bpm-lbl">bpm</span></div>
+      <input type="range" class="bpm-slider" min="40" max="208" value="80" step="1" id="bpmSlider" oninput="setBpm(parseInt(this.value))" aria-label="Tempo">
+      <button class="adj-btn" onclick="adjBpm(1)" aria-label="Faster">+</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="sec-label">Stopwatch</div>
+  <div class="sw-display" id="swDisplay">00:00.00</div>
+  <div class="sw-row">
+    <button class="sw-btn" id="swLapBtn" onclick="swLapOrReset()" disabled>Lap</button>
+    <button class="sw-btn" id="swStartBtn" onclick="swToggle()">Start</button>
+  </div>
+  <ol class="sw-laps" id="swLaps"></ol>
+</div>
+
+<!-- On every page: the feedback link and the copyright line. The name comes from js/my-settings.js. -->
+<footer class="lf-mark lf-foot" id="lf-foot">
+  <a class="lf-fb-link" href="feedback.html"><span aria-hidden="true">💬</span> Send feedback</a>
+  <p class="lf-copy" id="lf-copy">© 2026</p>
+  <svg class="lf-logo" viewBox="0 0 38 32" aria-hidden="true">
+    <path class="lf-logo-c" d="M15.5 6.64A7 7 0 1 0 15.5 17.36M31.5 6.64A7 7 0 1 0 31.5 17.36"/>
+    <path class="lf-logo-smile" d="M4.5 23Q18 33 31.5 23"/>
+  </svg>
+</footer>
+
+<!-- your name and feedback email; loaded first so the footer can use them -->
+<script src="js/my-settings.js"></script>
+<script src="js/footer.js"></script>
+<!-- one script per section; the keyboard comes first because the others use its note helpers and sound -->
+<script src="js/piano.js"></script>
+<script src="js/staff.js"></script>
+<script src="js/pitch.js"></script>
+<script src="js/tuner.js"></script>
+<script src="js/metronome.js"></script>
+<script src="js/stopwatch.js"></script>
+</body>
+</html>

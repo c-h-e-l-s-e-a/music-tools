@@ -1,0 +1,19 @@
+/* ---------- Shared by every page: colours, page layout, headings and the white cards ---------- */
+:root {
+  --paper: #f5f5f5;      /* page background */
+  --ink: #333;           /* main text */
+  --ink-soft: #777;      /* quieter text */
+  --line: #ddd;          /* borders */
+  --key: #fff;           /* cards and boxes */
+  --accent: #1a5fb4;     /* main button */
+  --focus: #4a90d9;      /* keyboard focus ring */
+  --good: #1e7b34;
+  --bad: #c0392b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; padding: 16px; }
+h1 { font-size: 18px; font-weight: 500; margin-bottom: 16px; color: #222; }
+.sec-label { font-size: 12px; color: #888; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.card { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+/* the page fills the window, so the footer sits at the bottom even when there's little above it */
+body { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }

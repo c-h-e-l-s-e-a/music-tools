@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!-- Vocal Range Piano: the feedback page. Your name and feedback email go in js/my-settings.js, not here. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send feedback · Vocal Range Piano</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="css/feedback.css">
+</head>
+<body>
+<a class="lf-back" href="index.html">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+  Back to the piano
+</a>
+
+<main class="card lf-fb-card">
+  <div class="lf-fb-head">
+    <h1 class="lf-fb-title" id="lf-fb-title">Send feedback or report a bug</h1>
+    <p class="lf-fb-intro">Found a bug, or have an idea for the piano? I’d love to hear from you. For a bug, a screenshot helps a lot.</p>
+  </div>
+  <form class="lf-fb-form" id="lf-fb-form" novalidate>
+    <label class="lf-field" for="lf-fb-message">
+      <span class="lf-label">Message</span>
+      <textarea id="lf-fb-message" name="message" rows="6" maxlength="3000" required></textarea>
+    </label>
+    <div class="lf-field" role="group" aria-labelledby="lf-fb-photos-label">
+      <span class="lf-label" id="lf-fb-photos-label">Photos or screenshots <small>(optional, up to 3)</small></span>
+      <div class="lf-fb-thumbs" id="lf-fb-thumbs"></div>
+      <input class="lf-vh" id="lf-fb-files" type="file" accept="image/*" multiple>
+      <label class="lf-fb-add" for="lf-fb-files" id="lf-fb-add"><span aria-hidden="true">📷</span> Add photos</label>
+    </div>
+    <label class="lf-field" for="lf-fb-name">
+      <span class="lf-label">Your name <small>(optional)</small></span>
+      <input id="lf-fb-name" name="name" type="text" maxlength="100" autocomplete="name">
+    </label>
+    <label class="lf-field" for="lf-fb-email">
+      <span class="lf-label">Your email <small>(optional, if you’d like a reply)</small></span>
+      <input id="lf-fb-email" name="email" type="email" maxlength="200" autocomplete="email" inputmode="email">
+    </label>
+    <p class="lf-fb-note">Device and browser help with bugs. They’re filled in from this device; change them if they’re wrong.</p>
+    <div class="lf-fb-pair">
+      <label class="lf-field" for="lf-fb-device">
+        <span class="lf-label">Device <small>(optional)</small></span>
+        <input id="lf-fb-device" name="device" type="text" maxlength="80" autocomplete="off" placeholder="iPad, iPhone, laptop…">
+      </label>
+      <label class="lf-field" for="lf-fb-browser">
+        <span class="lf-label">Browser <small>(optional)</small></span>
+        <input id="lf-fb-browser" name="browser" type="text" maxlength="80" autocomplete="off" placeholder="Safari, Chrome…">
+      </label>
+    </div>
+    <!-- a trap for spam robots: hidden from people, so a filled-in value means the message is junk -->
+    <input class="lf-trap" id="lf-fb-trap" name="_honey" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="lf-fb-status" id="lf-fb-status" role="status" aria-live="polite"></p>
+    <button class="lf-send" type="submit" id="lf-fb-send">Send</button>
+  </form>
+</main>
+
+<!-- the same footer as the piano page, without a link to the page you're already on -->
+<footer class="lf-mark lf-foot" id="lf-foot">
+  <p class="lf-copy" id="lf-copy">© 2026</p>
+  <svg class="lf-logo" viewBox="0 0 38 32" aria-hidden="true">
+    <path class="lf-logo-c" d="M15.5 6.64A7 7 0 1 0 15.5 17.36M31.5 6.64A7 7 0 1 0 31.5 17.36"/>
+    <path class="lf-logo-smile" d="M4.5 23Q18 33 31.5 23"/>
+  </svg>
+</footer>
+
+<script src="js/my-settings.js"></script>
+<script src="js/footer.js"></script>
+<script src="js/feedback.js"></script>
+</body>
+</html>

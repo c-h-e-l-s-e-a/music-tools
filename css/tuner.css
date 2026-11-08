@@ -1,0 +1,29 @@
+/* ---------- Tuner: the listen button, the note it hears, and a flat-to-sharp meter ---------- */
+.tn-row { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.tn-row .play-btn { flex: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.tn-row .play-btn:disabled { opacity: 0.5; cursor: default; }
+.tn-status { flex: 1 1 180px; font-size: 13px; line-height: 1.35; color: #777; }
+
+.tn-display { display: flex; align-items: center; gap: 16px; }
+.tn-readout { flex: none; width: 88px; display: flex; flex-direction: column; }
+.tn-note { font-size: 34px; font-weight: 500; line-height: 1.1; color: #bbb; font-variant-numeric: tabular-nums; }
+#tuner.has-note .tn-note { color: #222; }
+.tn-freq { min-height: 1.3em; font-size: 12px; color: #888; font-variant-numeric: tabular-nums; }
+
+.tn-gauge { flex: 1; min-width: 0; }
+.tn-meter { position: relative; height: 28px; border-radius: 6px; background: #f0f0f0; overflow: hidden; }
+.tn-zone { position: absolute; top: 0; bottom: 0; left: 40%; width: 20%; background: rgba(46, 158, 106, 0.16); }   /* ±10 cents */
+.tn-mid { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: rgba(46, 158, 106, 0.55); }
+.tn-needle { display: none; position: absolute; top: 3px; bottom: 3px; left: 50%; width: 4px; margin-left: -2px;
+  border-radius: 2px; background: #d9822b; transition: left 0.08s linear; }
+#tuner.has-note .tn-needle { display: block; }
+#tuner.in-tune .tn-needle { background: #2e9e6a; }
+.tn-scale { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: #999; }
+.tn-verdict { min-height: 1.35em; margin-top: 2px; font-size: 14px; font-weight: 500; color: #b5651d; }
+#tuner.in-tune .tn-verdict { color: #1e7b34; }
+
+/* the key the tuner hears: amber when it's off, green when it's in tune */
+.wkey.heard { background: #ffd9a3; }
+.wkey.heard.in-tune { background: #b9e6c9; }
+.bkey.heard { background: #c7782a; }
+.bkey.heard.in-tune { background: #2e9e6a; }

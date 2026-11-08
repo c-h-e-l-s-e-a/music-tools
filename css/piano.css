@@ -1,0 +1,84 @@
+/* ---------- The piano page: keyboard, grand staff, metronome and stopwatch ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #666; }
+.legend-sw { width: 14px; height: 8px; border-radius: 2px; opacity: 0.75; }
+
+/* Scroll wrapper: lets the browser pan; taps vs swipes are told apart in JS */
+.piano-scroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  cursor: grab;
+}
+.piano-scroll:active { cursor: grabbing; }
+
+.piano-wrap { position: relative; display: inline-block; }
+.wkey {
+  position: absolute;
+  background: #fff;
+  border: 0.5px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  cursor: pointer;
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  padding-bottom: 4px;
+  -webkit-tap-highlight-color: transparent;
+  /* Allow swipes that start on a key to scroll the keyboard */
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.wkey .nlabel { font-size: 8px; color: #999; pointer-events: none; line-height: 1; }
+.wkey:hover { background: #ddeeff; }
+.wkey.pressed { background: #a8ccf0 !important; }
+.bkey {
+  position: absolute;
+  background: #222;
+  border-radius: 0 0 4px 4px;
+  cursor: pointer;
+  z-index: 3;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 3px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bkey .nlabel { font-size: 7px; color: #aaa; pointer-events: none; line-height: 1; }
+.bkey:hover { background: #444; }
+.bkey.pressed { background: #4a90d9 !important; }
+
+/* Two groups: [Start, time signature, beat dots] and [−, bpm, slider, +].
+   On a wide screen they share one line; on a phone the tempo group drops
+   to its own full-width line and never splits apart. */
+.metro-row { display: flex; align-items: center; gap: 12px 16px; flex-wrap: wrap; }
+.metro-main { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.metro-tempo { display: flex; align-items: center; gap: 8px; flex: 1 1 240px; min-width: 0; }
+.bpm-readout { display: flex; align-items: baseline; gap: 3px; flex-shrink: 0; }
+.play-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px; background: #fff; color: #333; cursor: pointer; font-size: 14px; }
+.play-btn:hover { background: #f0f0f0; }
+.play-btn.active { background: #e8f0fe; border-color: #4a90d9; color: #1a5fb4; }
+.adj-btn { width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 8px; background: #fff; color: #333; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.adj-btn:hover { background: #f0f0f0; }
+.bpm-num { font-size: 22px; font-weight: 500; min-width: 40px; text-align: right; font-variant-numeric: tabular-nums; }
+.bpm-lbl { font-size: 11px; color: #888; }
+.bpm-slider { flex: 1; min-width: 60px; accent-color: #4a90d9; }
+.ts-select { padding: 6px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; color: #333; font-size: 13px; cursor: pointer; }
+.beats-row { display: flex; gap: 7px; align-items: center; }
+.beat-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; transition: background 0.04s; }
+.beat-dot.lit { background: #4a90d9; }
+.current-note { font-size: 14px; color: #555; margin-bottom: 6px; min-height: 20px; font-weight: 500; }
+canvas { max-width: 100%; display: block; }
+
+/* Stopwatch */
+.sw-display { font-size: 40px; font-weight: 300; text-align: center; font-variant-numeric: tabular-nums; color: #222; margin: 4px 0 12px; }
+.sw-row { display: flex; justify-content: center; gap: 12px; }
+.sw-btn { min-width: 100px; padding: 10px 16px; border: 1px solid #ddd; border-radius: 8px; background: #fff; color: #333; font-size: 15px; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.sw-btn:hover:not(:disabled) { background: #f0f0f0; }
+.sw-btn:disabled { color: #bbb; cursor: default; }
+.sw-btn.active { background: #e8f0fe; border-color: #4a90d9; color: #1a5fb4; }
+.sw-laps { list-style: none; margin-top: 12px; max-height: 170px; overflow-y: auto; }
+.sw-laps li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 2px; border-top: 0.5px solid #eee; font-size: 14px; font-variant-numeric: tabular-nums; }
+.sw-laps .sw-total { color: #999; }
