@@ -14,10 +14,13 @@ function buildBeats(){
 function toggleMetro(){
   metroOn=!metroOn;
   const btn=document.getElementById("playBtn");
-  const ac=getAC();
+  const ac=wakeSound();
   if(metroOn){ btn.classList.add("active"); btn.innerHTML="&#9646;&#9646; Stop"; beatIdx=0; nextBeatTime=ac.currentTime; metroTimer=setInterval(scheduler,25); }
   else { btn.classList.remove("active"); btn.innerHTML="&#9654; Start"; clearInterval(metroTimer); const n=timeSig===6?6:timeSig; for(let i=0;i<n;i++){ const d=document.getElementById("bd"+i); if(d) d.classList.remove("lit"); } }
 }
+
+// a fresh sound engine has its own clock, so the next beat is timed from that
+onFreshSound.push(ac=>{ if(metroOn) nextBeatTime=ac.currentTime+0.05; });
 
 function scheduler(){
   const ac=getAC(), n=timeSig===6?6:timeSig, spb=timeSig===6?(60/bpm)/1.5:(60/bpm);

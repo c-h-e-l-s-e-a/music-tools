@@ -1,5 +1,5 @@
 /* ---------- Keyboard: every note in the standard vocal range (E2 to C6), the voice-range bars and the sound ----------
-   Loaded first: the other sections use its note helpers and sound. */
+   Loaded right after js/sound.js: the other sections use its note helpers. */
 const NOTE_NAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 const BLACK = new Set(["C#","D#","F#","G#","A#"]);
 const DIATONIC = ["C","D","E","F","G","A","B"];
@@ -19,11 +19,9 @@ const VOICE_RANGES = [
 
 const WW=32, WH=110, BW=20, BH=68;
 const START=noteToMidi("E2"), END=noteToMidi("C6");
-let whiteKeys=[], AC=null;
+let whiteKeys=[];
 const keyEls={};   // each key's element by note number, so the tuner can light up the key it hears
 
-function getAC(){ if(!AC) AC=new(window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); return AC; }
-function playFreq(freq){ const ac=getAC(); const osc=ac.createOscillator(); const env=ac.createGain(); osc.connect(env); env.connect(ac.destination); osc.type='triangle'; osc.frequency.value=freq; const t=ac.currentTime; env.gain.setValueAtTime(0.4,t); env.gain.exponentialRampToValueAtTime(0.001,t+1.5); osc.start(t); osc.stop(t+1.5); }
 
 function buildPiano(){
   const wrap=document.getElementById("pianoWrap");
@@ -103,6 +101,7 @@ function addKeyListeners(el, midi) {
 }
 
 function onKey(midi, el){
+  wakeSound();   // makes sure the sound engine is really running (see js/sound.js)
   playFreq(440*Math.pow(2,(midi-69)/12));
   drawStaff(midi);
   clearStaffAfter(1500);   // the note leaves the staff as its sound fades
