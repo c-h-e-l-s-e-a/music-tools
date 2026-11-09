@@ -24,18 +24,15 @@
       say('This browser can’t use the microphone here. The tuner needs a secure (https) page, like your GitHub Pages site.');
       return;
     }
-    var ac = getAC();   /* started inside the tap, which iPhones and iPads require */
+    setSoundMode('play-and-record');   /* iPhone and iPad: the microphone needs this sound setting */
+    var ac = wakeSound();   /* started inside the tap, which iPhones and iPads require */
     btn.disabled = true;
     say('Waiting for the microphone…');
     /* the voice clean-up made for calls changes the sound, so it's switched off for accurate pitch */
     navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } })
       .then(function (s) {
         stream = s;
-        source = ac.createMediaStreamSource(s);
-        analyser = ac.createAnalyser();
-        analyser.fftSize = 2048;   /* about 43 ms of sound: enough for two cycles of the lowest note, E2 */
-        source.connect(analyser);  /* not connected to the speakers, so the microphone is never played back */
-        buf = new Float32Array(analyser.fftSize);
+        attach(AC);
         listening = true;
         btn.disabled = false;
         btn.classList.add('active');
@@ -46,6 +43,7 @@
       })
       .catch(function (e) {
         btn.disabled = false;
+        setSoundMode('playback');
         var name = e && e.name;
         say(name === 'NotAllowedError' || name === 'SecurityError'
           ? 'The microphone is blocked for this page. Allow it in your browser’s settings for this site, then tap Start listening again.'
@@ -60,6 +58,7 @@
     if (source) source.disconnect();
     if (stream) stream.getTracks().forEach(function (t) { t.stop(); });   /* releases the microphone */
     stream = source = analyser = null;
+    setSoundMode('playback');
     letGo();
     noteEl.textContent = '—';
     btn.classList.remove('active');
@@ -67,6 +66,18 @@
     card.classList.remove('on');
     say(message || IDLE);
   }
+
+  /* the microphone feeds a sound analyser on the shared engine */
+  function attach(ac) {
+    if (source) source.disconnect();
+    source = ac.createMediaStreamSource(stream);
+    analyser = ac.createAnalyser();
+    analyser.fftSize = 2048;   /* about 43 ms of sound: enough for two cycles of the lowest note, E2 */
+    source.connect(analyser);  /* not connected to the speakers, so the microphone is never played back */
+    buf = new Float32Array(analyser.fftSize);
+  }
+  /* if a tap starts a fresh sound engine while listening, move the microphone over to it */
+  onFreshSound.push(function (ac) { if (listening && stream) attach(ac); });
 
   /* ---------- Listening ---------- */
   function tick(now) {
