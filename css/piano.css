@@ -82,3 +82,16 @@ canvas { max-width: 100%; display: block; }
 .sw-laps { list-style: none; margin-top: 12px; max-height: 170px; overflow-y: auto; }
 .sw-laps li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 2px; border-top: 0.5px solid #eee; font-size: 14px; font-variant-numeric: tabular-nums; }
 .sw-laps .sw-total { color: #999; }
+
+/* ---------- Sound choices ---------- */
+/* under the keyboard */
+.piano-scroll { margin-bottom: 8px; }
+.sound-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 13px; color: #6b6b6b; }
+/* in the metronome: the sound and its volume, as a third group that keeps together */
+.metro-sound { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; flex: 1 1 240px; min-width: 0; }
+/* the volume stays beside the menu when there's room, and drops below it on the narrowest phones */
+.vol-group { display: flex; align-items: center; gap: 8px; flex: 1 1 110px; min-width: 0; }
+.metro-sound-label { flex: none; font-size: 13px; color: #6b6b6b; }
+.vol-icon { flex: none; display: flex; align-items: center; color: #6b6b6b; }
+.vol-slider { flex: 1; min-width: 60px; accent-color: #4a90d9; }
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

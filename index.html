@@ -5,10 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Vocal Range Piano</title>
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/piano.css">
-<link rel="stylesheet" href="css/tuner.css">
-<link rel="stylesheet" href="css/footer.css">
+<!-- The ?v= on each file below makes browsers fetch fresh copies after an update, instead of mixing
+     saved old files with new ones. It changes with every update. -->
+<link rel="stylesheet" href="css/base.css?v=20261109-3">
+<link rel="stylesheet" href="css/piano.css?v=20261109-3">
+<link rel="stylesheet" href="css/tuner.css?v=20261109-3">
+<link rel="stylesheet" href="css/footer.css?v=20261109-3">
 </head>
 <body>
 <h1>Vocal Range Piano</h1>
@@ -18,6 +20,17 @@
 
 <div class="piano-scroll" id="pianoScroll">
   <div class="piano-wrap" id="pianoWrap"></div>
+</div>
+<div class="sound-row">
+  <label for="keySound">Keyboard sound</label>
+  <select class="ts-select" id="keySound">
+    <option value="soft">Soft piano</option>
+    <option value="musicbox">Music box</option>
+    <option value="xylophone">Xylophone</option>
+    <option value="organ">Organ</option>
+    <option value="8bit">8-bit</option>
+    <option value="classic">Classic</option>
+  </select>
 </div>
 
 <div class="card">
@@ -65,6 +78,37 @@
       <input type="range" class="bpm-slider" min="40" max="208" value="80" step="1" id="bpmSlider" oninput="setBpm(parseInt(this.value))" aria-label="Tempo">
       <button class="adj-btn" onclick="adjBpm(1)" aria-label="Faster">+</button>
     </div>
+    <div class="metro-sound">
+      <label class="metro-sound-label" for="clickSound">Sound</label>
+      <select class="ts-select" id="clickSound">
+        <optgroup label="Gentle">
+          <option value="tick">Soft tick</option>
+          <option value="felt">Felt knock</option>
+          <option value="drop">Water drop</option>
+        </optgroup>
+        <optgroup label="Percussion">
+          <option value="wood">Wood block</option>
+          <option value="claves">Claves</option>
+          <option value="hihat">Hi-hat</option>
+          <option value="drums">Drum kit</option>
+        </optgroup>
+        <optgroup label="Musical">
+          <option value="keys">Match keyboard</option>
+          <option value="bell">Bell</option>
+          <option value="8bit">8-bit</option>
+        </optgroup>
+        <optgroup label="Original">
+          <option value="classic">Classic beep</option>
+        </optgroup>
+      </select>
+      <div class="vol-group">
+        <label class="vol-icon" for="clickVolume">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 9.5a4 4 0 0 1 0 5"/></svg>
+          <span class="vh">Metronome volume</span>
+        </label>
+        <input type="range" class="vol-slider" id="clickVolume" min="0" max="100" step="5" value="70">
+      </div>
+    </div>
   </div>
 </div>
 
@@ -89,15 +133,17 @@
 </footer>
 
 <!-- your name and feedback email; loaded first so the footer can use them -->
-<script src="js/my-settings.js"></script>
-<script src="js/footer.js"></script>
+<script src="js/my-settings.js?v=20261109-3"></script>
+<script src="js/footer.js?v=20261109-3"></script>
 <!-- one script per section; the sound engine and keyboard come first because the others use them -->
-<script src="js/sound.js"></script>
-<script src="js/piano.js"></script>
-<script src="js/staff.js"></script>
-<script src="js/pitch.js"></script>
-<script src="js/tuner.js"></script>
-<script src="js/metronome.js"></script>
-<script src="js/stopwatch.js"></script>
+<script src="js/sound.js?v=20261109-3"></script>
+<script src="js/piano.js?v=20261109-3"></script>
+<script src="js/staff.js?v=20261109-3"></script>
+<script src="js/pitch.js?v=20261109-3"></script>
+<script src="js/tuner.js?v=20261109-3"></script>
+<script src="js/metronome.js?v=20261109-3"></script>
+<script src="js/stopwatch.js?v=20261109-3"></script>
+<!-- the keyboard and metronome sound menus; after the sections they change -->
+<script src="js/sound-options.js?v=20261109-3"></script>
 </body>
 </html>

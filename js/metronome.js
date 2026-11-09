@@ -29,12 +29,7 @@ function scheduler(){
 
 function scheduleClick(beat,time,n){
   const ac=getAC(), isAcc=beat===0 && n>1;   // "Steady" (n=1): every click the same, no accent
-  const osc=ac.createOscillator(), g=ac.createGain();
-  osc.connect(g); g.connect(ac.destination);
-  osc.type="square"; osc.frequency.value=isAcc?1050:800;
-  g.gain.setValueAtTime(isAcc?0.22:0.13,time);
-  g.gain.exponentialRampToValueAtTime(0.001,time+0.05);
-  osc.start(time); osc.stop(time+0.06);
+  playClick(time, isAcc);                     // the chosen metronome sound (js/sound.js)
   const delay=Math.max(0,(time-ac.currentTime)*1000);
   setTimeout(()=>{ const n2=timeSig===6?6:timeSig; for(let i=0;i<n2;i++){ const d=document.getElementById("bd"+i); if(d) d.classList.remove("lit"); } const d=document.getElementById("bd"+beat); if(d) d.classList.add("lit");
     // With a single dot, flash it briefly so each beat is visible
