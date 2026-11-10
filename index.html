@@ -7,10 +7,10 @@
 <title>Music Tools</title>
 <!-- The ?v= on each file below makes browsers fetch fresh copies after an update, instead of mixing
      saved old files with new ones. It changes with every update. -->
-<link rel="stylesheet" href="css/base.css?v=20261109-6">
-<link rel="stylesheet" href="css/piano.css?v=20261109-6">
-<link rel="stylesheet" href="css/tuner.css?v=20261109-6">
-<link rel="stylesheet" href="css/footer.css?v=20261109-6">
+<link rel="stylesheet" href="css/base.css?v=20261110-1">
+<link rel="stylesheet" href="css/piano.css?v=20261110-1">
+<link rel="stylesheet" href="css/tuner.css?v=20261110-1">
+<link rel="stylesheet" href="css/footer.css?v=20261110-1">
 </head>
 <body>
 <h1>Music Tools</h1>
@@ -73,6 +73,7 @@
       <button class="play-btn" id="tnBtn" type="button"><span aria-hidden="true">🎤</span> Start listening</button>
       <p class="tn-status" id="tnStatus" role="status"></p>
     </div>
+    <div class="tn-level" aria-hidden="true"><span>Hearing</span><div class="tn-level-bar"><div class="tn-level-fill" id="tnLevel"></div></div></div>
     <div class="tn-display">
       <div class="tn-readout">
         <span class="tn-note" id="tnNote">—</span>
@@ -185,21 +186,21 @@
 </footer>
 
 <!-- your name and feedback email; loaded first so the footer can use them -->
-<script src="js/my-settings.js?v=20261109-6"></script>
-<script src="js/footer.js?v=20261109-6"></script>
+<script src="js/my-settings.js?v=20261110-1"></script>
+<script src="js/footer.js?v=20261110-1"></script>
 <!-- the sound engine, the screen-awake helper and the folding sections come first: the tools below use them -->
-<script src="js/sound.js?v=20261109-6"></script>
-<script src="js/effects.js?v=20261109-6"></script>
-<script src="js/awake.js?v=20261109-6"></script>
-<script src="js/sections.js?v=20261109-6"></script>
+<script src="js/sound.js?v=20261110-1"></script>
+<script src="js/effects.js?v=20261110-1"></script>
+<script src="js/awake.js?v=20261110-1"></script>
+<script src="js/sections.js?v=20261110-1"></script>
 <!-- one script per tool; the keyboard comes before the others because they use its note helpers -->
-<script src="js/piano.js?v=20261109-6"></script>
-<script src="js/staff.js?v=20261109-6"></script>
-<script src="js/pitch.js?v=20261109-6"></script>
-<script src="js/tuner.js?v=20261109-6"></script>
-<script src="js/metronome.js?v=20261109-6"></script>
-<script src="js/stopwatch.js?v=20261109-6"></script>
+<script src="js/piano.js?v=20261110-1"></script>
+<script src="js/staff.js?v=20261110-1"></script>
+<script src="js/pitch.js?v=20261110-1"></script>
+<script src="js/tuner.js?v=20261110-1"></script>
+<script src="js/metronome.js?v=20261110-1"></script>
+<script src="js/stopwatch.js?v=20261110-1"></script>
 <!-- the keyboard and metronome sound menus; after the tools they change -->
-<script src="js/sound-options.js?v=20261109-6"></script>
+<script src="js/sound-options.js?v=20261110-1"></script>
 </body>
 </html>

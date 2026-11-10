@@ -52,6 +52,18 @@ function wakeSound() {
   return AC;
 }
 
+/* Safari only starts an engine when a sound starts inside a tap. The tuner makes no sound of its own,
+   so in its tap it plays a silent sound one sample long, which gets the engine going. */
+function primeSound(ac) {
+  ac.resume().catch(() => {});
+  try {
+    const s = ac.createBufferSource();
+    s.buffer = ac.createBuffer(1, 1, ac.sampleRate);
+    s.connect(ac.destination);
+    s.start();
+  } catch (e) {}
+}
+
 /* For code that runs between taps (the metronome's timer, the tuner's listening): no new engine, just a nudge. */
 function getAC() {
   if (!AC) freshSound();

@@ -4,6 +4,12 @@
 .tn-row .play-btn:disabled { opacity: 0.5; cursor: default; }
 .tn-status { flex: 1 1 180px; font-size: 13px; line-height: 1.35; color: #777; }
 
+/* how loud the sound reaching the tuner is: shown while it listens, so you can see it hears you */
+.tn-level { display: none; align-items: center; gap: 8px; margin: -4px 0 12px; font-size: 11px; color: #888; }
+#tuner.on .tn-level { display: flex; }
+.tn-level-bar { flex: 1; height: 6px; border-radius: 3px; background: #f0f0f0; overflow: hidden; }
+.tn-level-fill { width: 0; height: 100%; border-radius: 3px; background: #4a90d9; transition: width 0.06s linear; }
+
 .tn-display { display: flex; align-items: center; gap: 16px; }
 .tn-readout { flex: none; width: 88px; display: flex; flex-direction: column; }
 .tn-note { font-size: 34px; font-weight: 500; line-height: 1.1; color: #bbb; font-variant-numeric: tabular-nums; }
