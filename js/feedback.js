@@ -164,7 +164,7 @@ var FEEDBACK_TO = String((window.MY_SETTINGS && MY_SETTINGS.feedbackEmail) || ''
       say('That email address doesn’t look right. Check it, or leave it blank.', 'bad'); email.focus(); return;
     }
     var body = {
-      _subject: 'Vocal Range Piano feedback' + (name ? ' from ' + name : ''),
+      _subject: 'Music Tools feedback' + (name ? ' from ' + name : ''),
       _template: 'table',
       _honey: $('lf-fb-trap').value,
       message: message,

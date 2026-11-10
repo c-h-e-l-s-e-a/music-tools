@@ -1,4 +1,4 @@
-/* ---------- Tuner: listens through the microphone, then shows the note on the staff and lights its key ----------
+/* ---------- Tuner: listens through the microphone, then adds the note to the staff's trail and lights its key ----------
    Uses the keyboard's sound engine and note helpers (piano.js), the staff (staff.js) and detectPitch (pitch.js). */
 (function () {
   var $ = function (id) { return document.getElementById(id); };
@@ -7,12 +7,12 @@
 
   var IN_TUNE = 10;          /* within 10 cents of the note counts as in tune */
   var EVERY = 40;            /* check the sound every 40 ms */
-  var LET_GO = 1000;         /* one second after the note stops, it leaves the staff and the key goes dark */
+  var LET_GO = 1000;         /* one second after the note stops, the key goes dark (the staff's trail clears a little later) */
   var IDLE = 'Sing or play a note, and it shows on the staff and the keyboard.';
 
   var listening = false, stream = null, source = null, analyser = null, buf = null, raf = 0, lastRun = 0;
   var recent = [], heldNote = null, heldCount = 0, shown = null, cents = 0, quietSince = 0, litKey = null, rangeNote = '';
-  var touchedKeysAt = 0;
+  var touchedKeysAt = 0, onStaff = null;   /* the note this tuner has put on the staff and is still holding */
 
   function say(text) { statusEl.textContent = text; }
   function pretty(m) { return midiToStr(m).replace('#', '♯'); }
@@ -38,6 +38,8 @@
         btn.classList.add('active');
         btn.innerHTML = '<span aria-hidden="true">■</span> Stop listening';
         card.classList.add('on');
+        stayAwake('tuner', true);                 /* keep the screen on (js/awake.js) */
+        setFoldStatus('tuner', 'Listening');     /* shown in the heading if the section is folded */
         say('Listening… sing or play a note.');
         raf = requestAnimationFrame(tick);
       })
@@ -64,6 +66,8 @@
     btn.classList.remove('active');
     btn.innerHTML = '<span aria-hidden="true">🎤</span> Start listening';
     card.classList.remove('on');
+    stayAwake('tuner', false);
+    setFoldStatus('tuner', '');
     say(message || IDLE);
   }
 
@@ -125,9 +129,11 @@
     litKey = null;
     noteEl.textContent = pretty(note);
     card.classList.add('has-note');
+    offStaff();
     if (note >= START && note <= END) {
       rangeNote = '';
-      drawStaff(note);
+      staffPress(note);   /* onto the staff's trail (js/staff.js) */
+      onStaff = note;
       litKey = keyEls[note];
       litKey.classList.add('heard');
       bringIntoView(litKey);
@@ -145,13 +151,16 @@
     card.classList.toggle('in-tune', inTune);
     if (litKey) litKey.classList.toggle('in-tune', inTune);
     verdict.textContent = inTune ? 'In tune' : Math.abs(rc) + ' cents ' + (rc < 0 ? 'flat' : 'sharp');
-    /* a key pressed while singing shows on the staff until it fades; then the sung note comes back */
-    if (litKey && lastMidi === null) drawStaff(shown);
   }
 
-  /* the note leaves the staff (unless a pressed key has replaced it), the key goes dark and the meter empties */
+  /* the note stops sounding as far as the staff is concerned; it stays in the trail until that clears */
+  function offStaff() {
+    if (onStaff !== null) { staffRelease(onStaff); onStaff = null; }
+  }
+
+  /* the key goes dark and the meter empties */
   function letGo() {
-    if (shown !== null && lastMidi === shown) clearStaff();
+    offStaff();
     if (litKey) litKey.classList.remove('heard', 'in-tune');
     litKey = null; shown = null; heldNote = null; heldCount = 0; recent.length = 0;
     card.classList.remove('has-note', 'in-tune');
