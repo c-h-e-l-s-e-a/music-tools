@@ -5,7 +5,7 @@
 var MY_SETTINGS = {
 
   /* Your name, shown at the bottom of every page as "© 2026 Your Name" */
-  name: "Chelsea Corvus",
+  name: "",
 
   /* Where "Send feedback" messages go: your email address, or the random alias FormSubmit gave you.
      The alias keeps your real address out of the page source. */
