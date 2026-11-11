@@ -35,6 +35,12 @@ let trail = [];                   // columns, oldest first: { at, notes: [note n
 const sounding = new Map();       // note number -> how many keys or voices are holding it
 let trailTimer = 0, staffW = 300;
 
+// ── A lesson's question ──────────────────────────────────────────────────────
+// Notes a lesson asks about (js/lessons.js) stay on the left in orange, named "?", until the lesson
+// clears them. Each entry is one column: a list of note numbers.
+let asked = [];
+function staffAsk(cols){ asked = cols || []; drawStaff(); }
+
 function staffPress(midi){
   clearTimeout(trailTimer);
   const now = performance.now(), last = trail[trail.length - 1];
@@ -97,13 +103,16 @@ function drawStaff(){
   ctx.beginPath(); ctx.moveTo(rightMar, TREBLE_TOP); ctx.lineTo(rightMar, BASS_BOTTOM); ctx.stroke();
 
   // only as many columns as fit; the oldest drop off the left
-  const fit = Math.max(1, Math.floor((rightMar - leftMar - LEFT_GAP) / COL_W));
+  const ASK_GAP = asked.length ? 10 : 0;
+  const fit = Math.max(1, Math.floor((rightMar - leftMar - LEFT_GAP - ASK_GAP) / COL_W) - asked.length);
   if (trail.length > fit) trail = trail.slice(trail.length - fit);
   const n = trail.length, NRX = 6, NRY = 4.5;
+  const cols = asked.map(notes => ({ notes: notes, ask: true })).concat(trail);
 
-  trail.forEach((col, i) => {
-    const x = leftMar + LEFT_GAP + i*COL_W + COL_W/2;
-    ctx.globalAlpha = i === n - 1 ? 1 : 0.35 + 0.45 * (i + 1) / n;   // older notes fade
+  cols.forEach((col, i) => {
+    const t = i - asked.length;                                       // its place in the trail
+    const x = leftMar + LEFT_GAP + i*COL_W + COL_W/2 + (col.ask ? 0 : ASK_GAP);
+    ctx.globalAlpha = col.ask || t === n - 1 ? 1 : 0.35 + 0.45 * (t + 1) / n;   // older notes fade
     const notes = col.notes.slice().sort((a, b) => a - b).map(m => {
       const info = staffInfo(m), base = info.clef === "treble" ? TREBLE_BOTTOM : BASS_BOTTOM;
       return { m, info, base, y: base - info.steps*LG, dx: 0 };
@@ -117,13 +126,13 @@ function drawStaff(){
       ctx.strokeStyle = "rgba(0,0,0,0.45)"; ctx.lineWidth = 1.2;
       if (o.info.steps < 0) for (let st = -2; st >= o.info.steps; st -= 2){ const ly = o.base - st*LG; ctx.beginPath(); ctx.moveTo(nx-ledger, ly); ctx.lineTo(nx+ledger, ly); ctx.stroke(); }
       if (o.info.steps > 8) for (let st = 10; st <= o.info.steps; st += 2){ const ly = o.base - st*LG; ctx.beginPath(); ctx.moveTo(nx-ledger, ly); ctx.lineTo(nx+ledger, ly); ctx.stroke(); }
-      ctx.fillStyle = noteColor;
+      ctx.fillStyle = col.ask ? "#c8641e" : noteColor;
       ctx.beginPath(); ctx.ellipse(nx, o.y, NRX, NRY, Math.PI*-0.1, 0, Math.PI*2); ctx.fill();
       if (NOTE_NAMES[o.m % 12].includes("#")){ ctx.font = "bold 13px serif"; ctx.fillText("♯", nx - 17, o.y + 5); }
     });
     // names underneath, highest first, so they read like the chord
     ctx.fillStyle = "#555"; ctx.font = "10px -apple-system, BlinkMacSystemFont, sans-serif"; ctx.textAlign = "center";
-    const names = notes.map(o => prettyName(o.m)).reverse();
+    const names = notes.map(o => col.ask ? "?" : prettyName(o.m)).reverse();
     const shown = names.length > MAX_NAMES ? names.slice(0, MAX_NAMES - 1).concat("+" + (names.length - MAX_NAMES + 1)) : names;
     shown.forEach((t, k) => ctx.fillText(t, x + 3, NAME_TOP + k*NAME_LINE));
     ctx.textAlign = "start";

@@ -7,21 +7,33 @@
 <title>Music Tools</title>
 <!-- The ?v= on each file below makes browsers fetch fresh copies after an update, instead of mixing
      saved old files with new ones. It changes with every update. -->
-<link rel="stylesheet" href="css/base.css?v=20261110-1">
-<link rel="stylesheet" href="css/piano.css?v=20261110-1">
-<link rel="stylesheet" href="css/tuner.css?v=20261110-1">
-<link rel="stylesheet" href="css/footer.css?v=20261110-1">
+<link rel="stylesheet" href="css/base.css?v=20261110-3">
+<link rel="stylesheet" href="css/piano.css?v=20261110-3">
+<link rel="stylesheet" href="css/tuner.css?v=20261110-3">
+<link rel="stylesheet" href="css/footer.css?v=20261110-3">
+<link rel="stylesheet" href="css/lessons.css?v=20261110-3">
 </head>
 <body>
-<h1>Music Tools</h1>
+<header class="app-head">
+  <h1>Music Tools</h1>
+  <!-- the theory lessons open on their own screen; js/lessons.js -->
+  <a class="lessons-btn" href="#lessons">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg>
+    Lessons
+  </a>
+</header>
 
-<div class="sec-label">Voice ranges</div>
-<div class="legend" id="legend"></div>
+<!-- The lessons: the list of all lessons, or the lesson you're in. Filled in by js/lessons.js.
+     While a lesson is open, only the tools it uses show below it (the parts marked "tool-…"). -->
+<main class="lessons" id="lessons" hidden></main>
 
-<div class="piano-scroll" id="pianoScroll">
+<div class="sec-label tool">Voice ranges</div>
+<div class="legend tool" id="legend"></div>
+
+<div class="piano-scroll tool tool-keys" id="pianoScroll">
   <div class="piano-wrap" id="pianoWrap"></div>
 </div>
-<div class="sound-row">
+<div class="sound-row tool">
   <span class="sound-pick">
     <label for="keySound">Keyboard sound</label>
     <select class="ts-select" id="keySound">
@@ -55,10 +67,10 @@
     </select>
   </span>
 </div>
-<p class="kbd-hint" id="kbdHint" hidden>On a computer keyboard, A W S E D F T G Y H U J K play the notes from <span id="kbdFrom">C4</span>. Z and X move down or up an octave.</p>
+<p class="kbd-hint tool tool-keys" id="kbdHint" hidden>On a computer keyboard, A W S E D F T G Y H U J K play the notes from <span id="kbdFrom">C4</span>. Z and X move down or up an octave.</p>
 
 <!-- Each section's heading folds it away; js/sections.js -->
-<section class="card fold" data-fold="staff">
+<section class="card fold tool tool-staff" data-fold="staff">
   <h2 class="sec-head"><button type="button" class="sec-toggle" aria-expanded="true" aria-controls="body-staff"><span class="sec-label">Grand staff</span><span class="sec-status"></span><svg class="sec-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h2>
   <div class="sec-body" id="body-staff">
     <div class="current-note" id="currentNoteDisp">—</div>
@@ -66,7 +78,7 @@
   </div>
 </section>
 
-<section class="card fold" data-fold="tuner" id="tuner">
+<section class="card fold tool" data-fold="tuner" id="tuner">
   <h2 class="sec-head"><button type="button" class="sec-toggle" aria-expanded="true" aria-controls="body-tuner"><span class="sec-label">Tuner</span><span class="sec-status"></span><svg class="sec-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h2>
   <div class="sec-body" id="body-tuner">
     <div class="tn-row">
@@ -88,7 +100,7 @@
   </div>
 </section>
 
-<section class="card fold" data-fold="metronome">
+<section class="card fold tool tool-metro" data-fold="metronome">
   <h2 class="sec-head"><button type="button" class="sec-toggle" aria-expanded="true" aria-controls="body-metronome"><span class="sec-label">Metronome</span><span class="sec-status"></span><svg class="sec-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h2>
   <div class="sec-body" id="body-metronome">
     <div class="metro-row">
@@ -145,7 +157,7 @@
   </div>
 </section>
 
-<section class="card fold" data-fold="timer">
+<section class="card fold tool" data-fold="timer">
   <h2 class="sec-head"><button type="button" class="sec-toggle" aria-expanded="true" aria-controls="body-timer"><span class="sec-label">Timer</span><span class="sec-status"></span><svg class="sec-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h2>
   <div class="sec-body" id="body-timer">
     <div class="tm-modes" role="group" aria-label="Timer type">
@@ -186,21 +198,24 @@
 </footer>
 
 <!-- your name and feedback email; loaded first so the footer can use them -->
-<script src="js/my-settings.js?v=20261110-1"></script>
-<script src="js/footer.js?v=20261110-1"></script>
+<script src="js/my-settings.js?v=20261110-3"></script>
+<script src="js/footer.js?v=20261110-3"></script>
 <!-- the sound engine, the screen-awake helper and the folding sections come first: the tools below use them -->
-<script src="js/sound.js?v=20261110-1"></script>
-<script src="js/effects.js?v=20261110-1"></script>
-<script src="js/awake.js?v=20261110-1"></script>
-<script src="js/sections.js?v=20261110-1"></script>
+<script src="js/sound.js?v=20261110-3"></script>
+<script src="js/effects.js?v=20261110-3"></script>
+<script src="js/awake.js?v=20261110-3"></script>
+<script src="js/sections.js?v=20261110-3"></script>
 <!-- one script per tool; the keyboard comes before the others because they use its note helpers -->
-<script src="js/piano.js?v=20261110-1"></script>
-<script src="js/staff.js?v=20261110-1"></script>
-<script src="js/pitch.js?v=20261110-1"></script>
-<script src="js/tuner.js?v=20261110-1"></script>
-<script src="js/metronome.js?v=20261110-1"></script>
-<script src="js/stopwatch.js?v=20261110-1"></script>
+<script src="js/piano.js?v=20261110-3"></script>
+<script src="js/staff.js?v=20261110-3"></script>
+<script src="js/pitch.js?v=20261110-3"></script>
+<script src="js/tuner.js?v=20261110-3"></script>
+<script src="js/metronome.js?v=20261110-3"></script>
+<script src="js/stopwatch.js?v=20261110-3"></script>
 <!-- the keyboard and metronome sound menus; after the tools they change -->
-<script src="js/sound-options.js?v=20261110-1"></script>
+<script src="js/sound-options.js?v=20261110-3"></script>
+<!-- the theory lessons: how they work, then the lessons themselves -->
+<script src="js/lessons.js?v=20261110-3"></script>
+<script src="js/lesson-list.js?v=20261110-3"></script>
 </body>
 </html>

@@ -81,6 +81,9 @@ function buildPiano(){
 const SETTLE = 60;            // ms a finger must stay still before its note starts
 const MOVE = 8;               // px a finger may drift before it counts as scrolling
 const holding = new Map();    // note number -> { letGo, count } for every note sounding right now
+/* the lessons (js/lessons.js) follow what you play: each gets ("down" | "up" | "cancel", note number) */
+const keyWatchers = [];
+function tellKeyWatchers(what, midi){ keyWatchers.forEach(fn => { try { fn(what, midi); } catch (e) {} }); }
 
 function pressKey(midi){
   const el = keyEls[midi];
@@ -92,6 +95,7 @@ function pressKey(midi){
   holding.set(midi, { letGo: letGo, count: (h ? h.count : 0) + 1 });
   el.classList.add("pressed");
   staffPress(midi);                                   // onto the staff's trail (js/staff.js)
+  tellKeyWatchers("down", midi);
 }
 function releaseKey(midi){
   const h = holding.get(midi);
@@ -101,6 +105,7 @@ function releaseKey(midi){
   holding.delete(midi);
   h.letGo();
   keyEls[midi].classList.remove("pressed");
+  tellKeyWatchers("up", midi);
 }
 
 // a press that turned out to be a swipe: stop it at once and take it back off the staff
@@ -112,6 +117,7 @@ function cancelKey(midi){
   holding.delete(midi);
   h.letGo(true);
   keyEls[midi].classList.remove("pressed");
+  tellKeyWatchers("cancel", midi);
 }
 
 const touches = new Map();    // touch id -> { midi, x, y, on, moved, timer }

@@ -246,6 +246,8 @@
   });
 
   btn.addEventListener('click', function () { if (listening) stop(); else start(); });
+  /* the lessons stop the tuner while you're in them (js/lessons.js) */
+  window.stopTuner = function () { if (listening) stop(); };
   /* let go of the microphone when you switch apps or tabs */
   document.addEventListener('visibilitychange', function () {
     if (document.hidden && listening) stop('Stopped listening when you left the page. Tap Start listening to carry on.');

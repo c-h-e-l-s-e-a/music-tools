@@ -1,0 +1,135 @@
+/* ---------- Theory lessons (js/lessons.js): the Lessons button, the list of lessons, a lesson, practice ---------- */
+
+/* the top of the tools page: the title, and the Lessons button on the right */
+.app-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -6px 0 10px; }
+.app-head h1 { margin: 0; }
+.lessons-btn { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 16px 0 13px;
+  border: 1px solid #b9d3f2; border-radius: 22px; background: #fff; color: #1a5fb4;
+  font-size: 15px; font-weight: 600; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.lessons-btn:hover { background: #eef4fc; }
+.lessons-btn:focus-visible, .ls-back:focus-visible, .ls-btn:focus-visible, .ls-row:focus-visible, .ls-choice:focus-visible, .ls-link:focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* ---------- Which parts show ----------
+   In the lessons, the tools page's parts are hidden; in a lesson, the tools it uses come back below it,
+   always open (their headings can't fold them away there). */
+body.in-lessons .app-head { display: none; }
+body.in-lessons .tool { display: none !important; }
+body.in-lesson.uses-keys .tool-keys:not([hidden]),
+body.in-lesson.uses-staff .tool-staff,
+body.in-lesson.uses-metro .tool-metro { display: block !important; }
+body.in-lesson .tool .sec-body { display: block !important; }
+body.in-lesson .tool .sec-toggle { pointer-events: none; }
+body.in-lesson .tool .sec-chev, body.in-lesson .tool .sec-status { display: none; }
+body.in-lesson.uses-metro .tool-metro { box-shadow: 0 0 0 2px #4a90d9, 0 1px 3px rgba(0,0,0,0.08); }
+
+/* the key names hide during practice that asks you to find keys */
+body.hide-key-names .nlabel { visibility: hidden; }
+/* keys a lesson shows you (orange), and a right answer (green, for a moment) */
+.wkey.ls-show { background: #ffdcb5 !important; }
+.bkey.ls-show { background: #c8641e !important; }
+.wkey.ls-good { background: #b9e6c9 !important; }
+.bkey.ls-good { background: #2e9e6a !important; }
+
+/* ---------- The lessons area ---------- */
+.lessons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 720px; margin-bottom: 16px; }
+.lessons[hidden], .lessons [hidden] { display: none !important; }
+.ls-back { align-self: flex-start; display: inline-flex; align-items: center; gap: 2px; min-height: 44px; margin: -6px 0 -6px -6px;
+  padding: 0 8px 0 4px; border-radius: 8px; color: #1a5fb4; font-size: 15px; font-weight: 500; text-decoration: none; }
+.ls-back:hover { background: #eaf1fb; }
+.ls-card { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.ls-card > * { margin: 0; }
+.ls-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -8px 0 -4px; }
+.ls-top .ls-back { margin: 0 0 0 -6px; font-size: 14px; }
+.ls-kicker { font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #6b6b6b; }
+.ls-title { font-size: 20px; font-weight: 600; line-height: 1.25; color: #222; outline: none; }
+.ls-heading { display: flex; flex-direction: column; gap: 4px; }
+.ls-text { font-size: 15px; line-height: 1.5; color: #444; display: flex; flex-direction: column; gap: 8px; }
+.ls-text p { margin: 0; }
+.ls-text strong { font-weight: 600; color: #222; }
+.ls-meta { font-size: 12px; color: #6b6b6b; }
+
+/* progress */
+.ls-progress { display: flex; flex-direction: column; gap: 6px; }
+.ls-bar { height: 6px; border-radius: 3px; background: #e6ecf4; overflow: hidden; }
+.ls-bar span { display: block; height: 100%; background: #4a90d9; border-radius: 3px; }
+.ls-dots { display: flex; align-items: center; gap: 6px; }
+.ls-dots span { width: 8px; height: 8px; border-radius: 4px; background: #ddd; }
+.ls-dots .past { background: #4a90d9; }
+.ls-dots .now { width: 20px; background: #1a5fb4; }
+
+/* the list of lessons */
+.ls-unit { display: flex; flex-direction: column; gap: 6px; }
+.ls-unit h2 { margin: 6px 0 2px; font-size: 13px; font-weight: 600; color: #222; }
+.ls-row { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px solid #ececec; border-radius: 8px;
+  background: #fff; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.ls-row:hover { background: #f7f9fc; }
+.ls-row.next { background: #eef4fc; border-color: #b9d3f2; }
+.ls-dot { width: 30px; height: 30px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; background: #f0f0f0; color: #555; }
+.ls-row.done .ls-dot { background: #e3f4ea; color: #1e7b34; }
+.ls-row.next .ls-dot { background: #1a5fb4; color: #fff; }
+.ls-row-words { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.ls-row-title { font-size: 15px; font-weight: 600; color: #222; }
+.ls-row-sub { font-size: 13px; line-height: 1.35; color: #555; }
+.ls-row-tag { font-size: 12px; font-weight: 500; margin-top: 2px; color: #1e7b34; }
+.ls-row.next .ls-row-tag { color: #1a5fb4; }
+.ls-chev { flex: none; color: #6b6b6b; }
+
+/* "Try it": what to play, and how it's going */
+.ls-try { display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 8px; background: #eef4fc; }
+.ls-try > p { margin: 0; font-size: 15px; line-height: 1.45; color: #222; }
+.ls-try > p strong { font-weight: 600; }
+.ls-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.ls-chips li { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; padding: 0 10px; border: 1px solid #cfd8e3; border-radius: 14px;
+  background: #fff; font-size: 13px; font-weight: 500; color: #444; }
+.ls-chips li.now { border-color: #4a90d9; color: #1a5fb4; box-shadow: 0 0 0 1px #4a90d9; }
+.ls-chips li.done { background: #e3f4ea; border-color: #b4dcc2; color: #1e7b34; }
+.ls-checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.ls-checks li { display: flex; align-items: center; gap: 8px; color: #555; }
+.ls-checks li.done { color: #1e7b34; font-weight: 500; }
+.ls-checks svg { flex: none; }
+.ls-msg { min-height: 1.45em; font-size: 14px; line-height: 1.45; font-weight: 500; color: #8a4b0f; }
+.ls-msg.good { color: #1e7b34; }
+.ls-msg:empty { display: none; }
+
+/* buttons */
+.ls-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+.ls-actions .ls-btn.primary { margin-left: auto; }
+.ls-actions.stack { flex-direction: column; align-items: stretch; }
+.ls-actions.stack .ls-btn { justify-content: center; margin-left: 0; }
+.ls-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 14px;
+  border: 1px solid #ccc; border-radius: 8px; background: #fff; color: #333; font: inherit; font-size: 14px; font-weight: 500;
+  text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ls-btn:hover { background: #f4f4f4; }
+.ls-btn.primary { border-color: #1a5fb4; background: #1a5fb4; color: #fff; font-size: 15px; font-weight: 600; padding: 0 18px; }
+.ls-btn.primary:hover { background: #174ea6; }
+.ls-link { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; border: 0; background: none; color: #6b6b6b; font: inherit; font-size: 13px;
+  text-decoration: underline; cursor: pointer; }
+.ls-link.skip { align-self: auto; color: #555; text-decoration: none; font-size: 14px; }
+
+/* practice */
+.ls-ask { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 12px; border-radius: 8px; background: #f7f7f7; text-align: center; }
+.ls-ask-big { font-size: 34px; font-weight: 600; line-height: 1.1; color: #222; }
+.ls-ask-small { font-size: 14px; color: #555; }
+.ls-notes { display: flex; align-items: flex-end; justify-content: center; gap: 14px; color: #222; }
+.ls-notes-inline { display: inline-flex; vertical-align: -9px; color: #222; }
+.ls-choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(74px, 1fr)); gap: 8px; }
+.ls-choice { min-height: 44px; padding: 0 8px; border: 1px solid #ccc; border-radius: 8px; background: #fff; color: #333;
+  font: inherit; font-size: 15px; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ls-choice:hover:not(:disabled) { background: #f4f4f4; }
+.ls-choice:disabled { cursor: default; }
+.ls-choice.right { background: #e3f4ea; border-color: #7cc497; color: #1e7b34; }
+.ls-choice.wrong { background: #fbe9e6; border-color: #e3a49a; color: #a3271b; }
+.ls-result { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; border-radius: 8px; font-size: 14px; line-height: 1.45; font-weight: 500; }
+.ls-result:empty { display: none; }
+.ls-result.right { background: #e3f4ea; color: #1e7b34; }
+.ls-result.wrong { background: #fdf0e3; color: #7a3f0c; }
+.ls-result svg { flex: none; margin-top: 1px; }
+
+/* lesson done */
+.ls-done-head { display: flex; align-items: center; gap: 12px; }
+.ls-done-mark { width: 48px; height: 48px; flex: none; border-radius: 50%; background: #e3f4ea; color: #1e7b34; display: flex; align-items: center; justify-content: center; }
+.ls-learned { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 8px; background: #f7f7f7; }
+.ls-learned h2 { margin: 0; font-size: 13px; font-weight: 600; color: #222; }
+.ls-learned ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.4; color: #444; }
